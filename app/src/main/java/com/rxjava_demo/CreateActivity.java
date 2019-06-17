@@ -110,12 +110,13 @@ public class CreateActivity extends BaseActivity {
 
     private void from() {
         //不定长度的类型的参数；
-        Observable.fromArray(1, 2, 3, 4, 5, 6, 7).subscribe(new Consumer<Integer>() {
+        Disposable subscribe = Observable.fromArray(1, 2, 3, 4, 5, 6, 7).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 Log.e(TAG, "接受：：" + integer);
             }
         });
+
     }
 
     private void forIterable() {
@@ -123,7 +124,7 @@ public class CreateActivity extends BaseActivity {
         list.add("tom");
         list.add("Jhon");
 
-        Observable.fromIterable(list).subscribe(new Consumer<String>() {
+        Disposable subscribe = Observable.fromIterable(list).subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) throws Exception {
                 Log.e(TAG, s);
@@ -137,7 +138,7 @@ public class CreateActivity extends BaseActivity {
      */
     private void range() {
         //从1开始,到start+count结束；
-        Observable.range(1, 5).subscribe(new Consumer<Integer>() {
+        Disposable subscribe = Observable.range(1, 5).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 Log.e(TAG, "forIterable::" + integer);
@@ -147,7 +148,7 @@ public class CreateActivity extends BaseActivity {
 
     //延时发送
     private void timer() {
-        Observable.timer(1, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+        Disposable subscribe = Observable.timer(1, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) throws Exception {
                 Log.e(TAG, "timer::" + aLong);
@@ -161,7 +162,7 @@ public class CreateActivity extends BaseActivity {
      */
     private void interval() {
         //延后1s后发送0，每隔2s之后发送一次；
-        Observable.interval(1, 2, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+        Disposable subscribe = Observable.interval(1, 2, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) throws Exception {
                 Log.e(TAG, "interval::" + aLong);
@@ -170,7 +171,7 @@ public class CreateActivity extends BaseActivity {
     }
 
     private void intervalRange() {
-        Observable.intervalRange(1, 3, 1, 5, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+        Disposable subscribe = Observable.intervalRange(1, 3, 1, 5, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) throws Exception {
                 Log.e(TAG, "延时消息：：" + aLong);
@@ -178,9 +179,9 @@ public class CreateActivity extends BaseActivity {
         });
     }
 
-    //
+    //重复发送；
     private void repeat() {
-        Flowable.range(0, 3).repeat().subscribe(new Consumer<Integer>() {
+        Disposable subscribe = Flowable.range(0, 3).repeat().subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 Log.e(TAG, "repeat::" + integer);
