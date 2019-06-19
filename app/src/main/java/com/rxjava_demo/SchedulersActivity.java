@@ -2,17 +2,15 @@ package com.rxjava_demo;
 
 import android.util.Log;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -24,6 +22,7 @@ public class SchedulersActivity extends BaseActivity {
     protected List<String> initData() {
         List<String> list = new ArrayList<>();
         list.add("Scheduler");
+        list.add("配合网络请求");
         return list;
     }
 
@@ -33,46 +32,88 @@ public class SchedulersActivity extends BaseActivity {
         mainAdapter.setItemViewClick(new MainAdapter.ItemViewClick() {
             @Override
             public void itemClick(int pos) {
-                scheduler();
+
+                switch (pos) {
+                    case 0:
+                        scheduler();
+                        break;
+
+                    case 1:
+                        req();
+                        break;
+                }
+
             }
         });
     }
 
+
+    /**
+     * 多次指定线程，只有第一次有效；
+     */
     public void scheduler() {
-        Flowable.create(new FlowableOnSubscribe<String>() {
+
+        Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(FlowableEmitter<String> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                Log.e(TAG, "Name:::" + Thread.currentThread().getName() + ",,ID ::" + Thread.currentThread().getId());
                 Thread.sleep(3000);
                 emitter.onNext("我休息三秒钟后才发送");
             }
-        }, BackpressureStrategy.BUFFER)
-                .observeOn(Schedulers.io())
-//                .observeOn(Schedulers.computation())
-//                .observeOn(Schedulers.single())
-//                .observeOn(Schedulers.newThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+        }).subscribeOn(Schedulers.io())
+//                .subscribeOn(Schedulers.computation())
+//                .subscribeOn(Schedulers.single())
+//                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
                     @Override
-                    public void onSubscribe(Subscription s) {
+                    public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
                     public void onNext(String s) {
+                        Log.e(TAG, "Name:::" + Thread.currentThread().getName() + ",,ID ::" + Thread.currentThread().getId());
                         Log.e(TAG, s);
                     }
 
                     @Override
-                    public void onError(Throwable t) {
-                        Log.e(TAG, "onError");
+                    public void onError(Throwable e) {
+
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e(TAG, "onComplete");
 
                     }
                 });
     }
 
+
+    private void req() {
+        Observer observer = new Observer<BaseResponse<ContentBean>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(BaseResponse<ContentBean> translation) {
+                //更新UI；
+                Log.e(TAG, translation.status + ",," + translation.content.from);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
+        ReqUtil.getInstance().getReq(observer);
+    }
 }

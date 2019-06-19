@@ -59,14 +59,16 @@ public class OtherActivity extends BaseActivity {
         });
     }
 
-    //delay操作符可以让源Observable对象发送数据之前暂停一段制定的时间
+    //delay操作符可以让源Observable对象发送数据之前暂停一段制定的时间；和Timer类似；
     private void delay() {
-        Disposable subscribe = Observable.fromArray("Hello", "Word", "Android").delay(2, TimeUnit.SECONDS).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String string) throws Exception {
-                Log.e("delay", string);
-            }
-        });
+        Disposable subscribe = Observable.fromArray("Hello", "Word", "Android")
+                .delay(2, TimeUnit.SECONDS)
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String string) throws Exception {
+                        Log.e("delay", string);
+                    }
+                });
     }
 
     /**
@@ -74,12 +76,14 @@ public class OtherActivity extends BaseActivity {
      * distinct操作符只允许还没有发射过的数据项通过。
      */
     private void distinct() {
-        Disposable distinct = Observable.fromArray(1, 2, 3, 2, 1, 5).distinct().subscribe(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer integer) throws Exception {
-                Log.e("distinct", "distinct：：" + integer);
-            }
-        });
+        Disposable distinct = Observable.fromArray(1, 2, 3, 2, 1, 5)
+                .distinct()
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        Log.e("distinct", "distinct：：" + integer);
+                    }
+                });
     }
 
     /**
