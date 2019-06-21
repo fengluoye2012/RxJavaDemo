@@ -53,6 +53,29 @@ public class SchedulersActivity extends BaseActivity {
      */
     public void scheduler() {
 
+        Observer<String> observer = new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                Log.e(TAG, "Name:::" + Thread.currentThread().getName() + ",,ID ::" + Thread.currentThread().getId());
+                Log.e(TAG, s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
@@ -65,28 +88,7 @@ public class SchedulersActivity extends BaseActivity {
 //                .subscribeOn(Schedulers.single())
 //                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        Log.e(TAG, "Name:::" + Thread.currentThread().getName() + ",,ID ::" + Thread.currentThread().getId());
-                        Log.e(TAG, s);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                .subscribe(observer);
     }
 
 

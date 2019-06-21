@@ -19,6 +19,8 @@ public class CreateActivity extends BaseActivity {
 
 
     private Disposable intervalDis;
+    private Disposable disposable;
+    private Disposable subscribe;
 
     @Override
     protected List<String> initData() {
@@ -94,7 +96,7 @@ public class CreateActivity extends BaseActivity {
                 emitter.onNext("luo");
                 emitter.onNext("ye");
 
-                emitter.onError(new NullPointerException("onError"));
+                //emitter.onError(new NullPointerException("onError"));
                 emitter.onComplete();
 
                 emitter.onNext("Hello");
@@ -103,12 +105,17 @@ public class CreateActivity extends BaseActivity {
             @Override
             public void onSubscribe(Disposable d) {
 
+                disposable = d;
                 // d.dispose();//中断发送；
             }
 
             @Override
             public void onNext(String s) {
                 Log.e("create", s);
+//                if("luo".equals(s)){
+//                    disposable.dispose();
+//                }
+
             }
 
             @Override
@@ -126,9 +133,11 @@ public class CreateActivity extends BaseActivity {
 
     private void from() {
         //不定长度的类型的参数；
-        Disposable subscribe = Observable.fromArray(1, 2, 3, 4, 5, 6, 7).subscribe(new Consumer<Integer>() {
+        subscribe = Observable.fromArray(1, 2, 3, 4, 5, 6, 7).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
+
+                subscribe.dispose();
                 Log.e(TAG, "接受：：" + integer);
             }
         });
@@ -197,7 +206,7 @@ public class CreateActivity extends BaseActivity {
      * 初始延时initialDelay，发送第一个事件，每period 时间间隔之后不断增加；从[start,start+count);
      */
     private void intervalRange() {
-        Disposable subscribe = Observable.intervalRange(1, 3, 1, 5, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+        Disposable subscribe = Observable.intervalRange(1, 3, 1, 1, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
             public void accept(Long aLong) throws Exception {
                 Log.e(TAG, "延时消息：：" + aLong);

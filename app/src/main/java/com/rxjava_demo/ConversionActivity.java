@@ -67,6 +67,8 @@ public class ConversionActivity extends BaseActivity {
             @Override
             public void accept(String s) throws Exception {
                 Log.e("map", s);
+
+                //传
             }
         });
     }

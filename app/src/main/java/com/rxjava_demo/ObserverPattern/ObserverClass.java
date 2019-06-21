@@ -12,7 +12,7 @@ public class ObserverClass implements NotifyChangeClass {
 
     @Override
     public void notifyChange() {
-
+            //todo
     }
 
 

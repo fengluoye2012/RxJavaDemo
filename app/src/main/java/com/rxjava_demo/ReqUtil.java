@@ -22,6 +22,7 @@ public class ReqUtil {
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://fy.iciba.com/") //设置 网络请求 Url
             .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
+            //.addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 支持RxJava
             .build();
 
@@ -44,7 +45,7 @@ public class ReqUtil {
     //泛形；
     private <T> void sendReq(final Observable<BaseResponse<T>> observable, final Observer observer) {
         // 步骤7：发送网络请求
-        observable.subscribeOn(Schedulers.io())               // 在IO线程进行网络请求
+        observable.subscribeOn(Schedulers.io())//
                 .observeOn(AndroidSchedulers.mainThread())  // 回到主线程 处理请求结果
                 .subscribe(new Observer<BaseResponse<T>>() {
                     @Override

@@ -1,4 +1,4 @@
-#### RxJava分享
+#### 初步了解RxJava
 
 ##### 1、了解RxJava 
 
@@ -17,9 +17,11 @@ ReactiveX是一个库，用于通过使用可观察序列来**编写异步和基
 **在Android的SDK中，给开发者提供的用于异步操作的原生内容有AsyncTask和Handler。**对于简单的异步请求来说，使用Android原生的AsyncTask和Handler即可满足需求，但是对于复杂的业务逻辑而言，依然使用AsyncTask和Handler会导致代码结构混乱，代码的可读性非常差。
  **但是RxJava的异步操作是基于观察者模式实现的，在越来越复杂的业务逻辑中，RxJava依旧可以保持简洁。**
 
+观察者模式  发布--订阅  又区别吗？
 
 
-##### 2、RxJva 操作符
+
+#####  2、RxJva 操作符
 
 RxJava操作符的分类
 
