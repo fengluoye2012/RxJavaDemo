@@ -3,6 +3,7 @@
     package="com.rxjava_demo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GRANT_RUNTIME_PERMISSIONS"/>
 
     <application
         android:allowBackup="true"

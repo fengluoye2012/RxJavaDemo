@@ -16,6 +16,7 @@ public class MainActivity extends BaseActivity {
         list.add("转换操作符");
         list.add("其他操作符");
         list.add("线程切换");
+        list.add("权限跳转");
         return list;
     }
 
@@ -41,6 +42,11 @@ public class MainActivity extends BaseActivity {
                     case 3:
                         intent = new Intent(act, SchedulersActivity.class);
                         startActivity(intent);
+                        break;
+
+                    case 4:
+                        PermissionPageUtils permissionPageUtils = new PermissionPageUtils(act);
+                        permissionPageUtils.jumpPermissionPage();
                         break;
                     default:
                         break;
